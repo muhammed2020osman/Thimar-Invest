@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -48,7 +48,8 @@ const emptyOpportunity: OpportunityFormValues = {
   imageIds: "",
 };
 
-export default function OpportunityFormPage() {
+// Component that uses useSearchParams - needs to be wrapped in Suspense
+function OpportunityFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
@@ -444,5 +445,23 @@ export default function OpportunityFormPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+// Loading fallback component
+function OpportunityFormLoading() {
+  return (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <Loader2 className="h-8 w-8 animate-spin" />
+    </div>
+  );
+}
+
+// Main page component with Suspense boundary
+export default function OpportunityFormPage() {
+  return (
+    <Suspense fallback={<OpportunityFormLoading />}>
+      <OpportunityFormContent />
+    </Suspense>
   );
 }
