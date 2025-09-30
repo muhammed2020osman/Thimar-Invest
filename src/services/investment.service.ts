@@ -7,6 +7,7 @@ interface InvestmentParams {
     per_page?: number;
     status?: string;
     opportunity_id?: number;
+    user_id?: number;
 }
 
 interface TransactionParams {
@@ -82,7 +83,30 @@ export const investmentService = {
 
     // Get investment statistics
     async getStatistics() {
-        return baseInvestmentService.customGet('/investment/user-investments/statistics');
+        return baseInvestmentService.customGet('/investment/user-investments-statistics');
+    },
+
+    // Get user investment statistics (portfolio stats)
+    async getUserInvestmentStatistics(userId?: number) {
+        try {
+            const url = userId 
+                ? `/investment/user-investments-statistics?user_id=${userId}`
+                : '/investment/user-investments-statistics';
+            const response = await baseInvestmentService.customGet(url);
+            
+            // Handle different response structures
+            if (response.payload) {
+                return response.payload;
+            }
+            if (response.data) {
+                return response.data;
+            }
+            
+            return response;
+        } catch (error: any) {
+            console.error('Error fetching user investment statistics:', error);
+            throw new Error('Failed to fetch user investment statistics');
+        }
     }
 };
 

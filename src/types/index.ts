@@ -90,3 +90,12 @@ export interface FormState {
   }>;
   error: string | null;
 }
+
+export interface UserInvestmentStatistics {
+  total_investments: number;
+  total_profits: number;
+  average_return: number;
+  total_count: number;
+  status_breakdown: Record<string, number>;
+  recent_investments: UserInvestment[];
+}

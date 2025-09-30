@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from 'next/link';
 import { investmentService } from "@/services/investment.service";
 import authService from "@/services/auth.service";
-import type { UserInvestment } from "@/types";
+import type { UserInvestment, UserInvestmentStatistics } from "@/types";
 import { TrendingUp, PieChart, DollarSign, CheckCircle, Clock, Loader2, ChevronsLeft } from 'lucide-react';
 import { useAuth } from "@/contexts/auth-context";
 import { useToast } from "@/hooks/use-toast";
@@ -66,19 +66,30 @@ export default function PortfolioPage() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const { toast } = useToast();
   const [userInvestments, setUserInvestments] = useState<InvestmentWithOpportunity[]>([]);
+  const [statistics, setStatistics] = useState<UserInvestmentStatistics | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      const fetchInvestments = async () => {
+      const fetchPortfolioData = async () => {
         try {
           setIsLoading(true);
-          const investments = await investmentService.getUserInvestments({ user_id: user.id });
-          // Ensure investments is always an array
+          
+          // Fetch both investments and statistics in parallel
+          const [investments, stats] = await Promise.all([
+            investmentService.getUserInvestments({ user_id: user.id }),
+            investmentService.getUserInvestmentStatistics(user.id)
+          ]);
+          
+          // Handle investments data
           const investmentsArray = Array.isArray(investments) ? investments : [];
           setUserInvestments(investmentsArray as InvestmentWithOpportunity[]);
+          
+          // Handle statistics data
+          setStatistics(stats);
+          
         } catch (error) {
-          console.error('Error fetching investments:', error);
+          console.error('Error fetching portfolio data:', error);
           toast({
             title: "خطأ في تحميل البيانات",
             description: "فشل في تحميل بيانات المحفظة الاستثمارية.",
@@ -88,13 +99,17 @@ export default function PortfolioPage() {
           setIsLoading(false);
         }
       };
-      fetchInvestments();
+      fetchPortfolioData();
     }
   }, [isAuthenticated, user, toast]);
 
-  const totalInvestments = (Array.isArray(userInvestments) ? userInvestments : []).reduce((acc, inv) => acc + (inv.amount || 0), 0);
-  const totalProfits = (Array.isArray(userInvestments) ? userInvestments : []).reduce((acc, inv) => acc + (inv.profit || 0), 0);
-  const avgReturn = totalInvestments > 0 ? (totalProfits / totalInvestments) * 100 : 0;
+  // Use API statistics if available, otherwise fallback to calculated values
+  const totalInvestments = statistics?.total_investments ?? 
+    (Array.isArray(userInvestments) ? userInvestments : []).reduce((acc, inv) => acc + (inv.amount || 0), 0);
+  const totalProfits = statistics?.total_profits ?? 
+    (Array.isArray(userInvestments) ? userInvestments : []).reduce((acc, inv) => acc + (inv.profit || 0), 0);
+  const avgReturn = statistics?.average_return ?? 
+    (totalInvestments > 0 ? (totalProfits / totalInvestments) * 100 : 0);
 
   // Show loading state while checking authentication
   if (authLoading || isLoading) {
@@ -184,7 +199,7 @@ export default function PortfolioPage() {
               {(Array.isArray(userInvestments) ? userInvestments : []).map((inv) => (
                 <div key={inv.id} className="border rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-center">
-                    <Link href={`/opportunity/${inv.opportunityId || inv.opportunity_id || 'unknown'}`} className="font-bold text-primary hover:underline truncate">
+                    <Link href={`/opportunity/${inv.opportunity_id || 'unknown'}`} className="font-bold text-primary hover:underline truncate">
                         {inv.InvestmentOpportunity?.name  }
                     </Link>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
@@ -201,7 +216,7 @@ export default function PortfolioPage() {
                         <span className="font-mono text-green-600 font-medium">{inv.profit ? `${(inv.profit || 0).toLocaleString('ar-SA')} ريال` : '-'}</span>
                     </div>
                      <Button variant="link" asChild className="p-0 h-auto">
-                        <Link href={`/opportunity/${inv.opportunityId || inv.opportunity_id || 'unknown'}`}>
+                        <Link href={`/opportunity/${inv.opportunity_id || 'unknown'}`}>
                             عرض التفاصيل <ChevronsLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -223,7 +238,7 @@ export default function PortfolioPage() {
                   {(Array.isArray(userInvestments) ? userInvestments : []).map((inv: InvestmentWithOpportunity) => (
                     <TableRow key={inv.id} className="odd:bg-muted/50 hover:bg-muted/50">
                       <TableCell className="font-medium text-xs sm:text-sm">
-                        <Link href={`/opportunity/${inv.opportunityId || inv.opportunity_id || 'unknown'}`} className="hover:underline truncate block">
+                        <Link href={`/opportunity/${inv.opportunity_id || 'unknown'}`} className="hover:underline truncate block">
                           {inv.investment_opportunity?.name || 'غير محدد'}
                         </Link>
                       </TableCell>
