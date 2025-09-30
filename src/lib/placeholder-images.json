@@ -1,0 +1,65 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "office-tower",
+      "description": "A modern office tower in Riyadh at dusk.",
+      "imageUrl": "https://picsum.photos/seed/101/800/450",
+      "imageHint": "office tower"
+    },
+    {
+      "id": "riyadh-skyline",
+      "description": "Riyadh city skyline with financial district.",
+      "imageUrl": "https://picsum.photos/seed/102/800/450",
+      "imageHint": "riyadh skyline"
+    },
+    {
+      "id": "luxury-villa-compound",
+      "description": "An aerial view of a luxury villa compound with pools.",
+      "imageUrl": "https://picsum.photos/seed/103/800/450",
+      "imageHint": "luxury villa"
+    },
+    {
+      "id": "jeddah-coast",
+      "description": "The coast of Jeddah with clear blue water.",
+      "imageUrl": "https://picsum.photos/seed/104/800/450",
+      "imageHint": "jeddah coast"
+    },
+    {
+      "id": "warehouse-logistics",
+      "description": "Interior of a large, modern logistics warehouse.",
+      "imageUrl": "https://picsum.photos/seed/105/800/450",
+      "imageHint": "logistics warehouse"
+    },
+    {
+      "id": "dammam-port",
+      "description": "Cargo ships at Dammam port.",
+      "imageUrl": "https://picsum.photos/seed/106/800/450",
+      "imageHint": "cargo port"
+    },
+    {
+      "id": "modern-apartment-building",
+      "description": "Exterior of a modern apartment building with balconies.",
+      "imageUrl": "https://picsum.photos/seed/107/800/450",
+      "imageHint": "apartment building"
+    },
+    {
+      "id": "apartment-interior",
+      "description": "Interior of a bright, modern apartment living room.",
+      "imageUrl": "https://picsum.photos/seed/108/800/450",
+      "imageHint": "apartment interior"
+    },
+    {
+      "id": "shopping-center-exterior",
+      "description": "Exterior of a bustling two-story shopping center.",
+      "imageUrl": "https://picsum.photos/seed/109/800/450",
+      "imageHint": "shopping center"
+    },
+    {
+      "id": "retail-space",
+      "description": "An empty, modern retail space ready for a tenant.",
+      "imageUrl": "https://picsum.photos/seed/110/800/450",
+      "imageHint": "retail space"
+    }
+  ]
+}

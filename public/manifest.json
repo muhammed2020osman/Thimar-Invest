@@ -1,0 +1,21 @@
+{
+  "name": "Thimar Invest | ثمار",
+  "short_name": "Thimar",
+  "description": "Democratizing real estate investment in Saudi Arabia.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#6366F1",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

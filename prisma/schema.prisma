@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model AssetType {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  InvestmentOpportunity InvestmentOpportunity[]
+}
+
+model City {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  InvestmentOpportunity InvestmentOpportunity[]
+}
+
+model Developer {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  description           String                  @db.Text
+  logoUrl               String
+  InvestmentOpportunity InvestmentOpportunity[]
+}
+
+model InvestmentOpportunity {
+  id             Int              @id @default(autoincrement())
+  name           String
+  expectedReturn Float
+  duration       String
+  funded         Int
+  status         String
+  imageIds       String           @db.LongText
+  description    String           @db.Text
+  developerId    Int
+  cityId         Int
+  assetTypeId    Int
+  assetType      AssetType        @relation(fields: [assetTypeId], references: [id], onDelete: Cascade)
+  city           City             @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  developer      Developer        @relation(fields: [developerId], references: [id], onDelete: Cascade)
+  UserInvestment UserInvestment[]
+
+  @@index([assetTypeId], map: "InvestmentOpportunity_assetTypeId_fkey")
+  @@index([cityId], map: "InvestmentOpportunity_cityId_fkey")
+  @@index([developerId], map: "InvestmentOpportunity_developerId_fkey")
+}
+
+model Transaction {
+  id     Int      @id @default(autoincrement())
+  type   String
+  amount Float
+  date   DateTime @default(now())
+  status String
+  userId Int
+  User   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "Transaction_userId_fkey")
+}
+
+model User {
+  id             Int              @id @default(autoincrement())
+  name           String
+  email          String?          @unique
+  phone          String           @unique
+  avatar         String?
+  type           String
+  status         String
+  joinDate       DateTime         @default(now())
+  Transaction    Transaction[]
+  UserInvestment UserInvestment[]
+}
+
+model UserInvestment {
+  id                    Int                   @id @default(autoincrement())
+  amount                Float
+  status                String
+  profit                Float?
+  userId                Int
+  opportunityId         Int
+  InvestmentOpportunity InvestmentOpportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  User                  User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([opportunityId], map: "UserInvestment_opportunityId_fkey")
+  @@index([userId], map: "UserInvestment_userId_fkey")
+}

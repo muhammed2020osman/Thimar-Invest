@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--font-body);
+}
+
+@layer base {
+  :root {
+    --background: 213 53% 96%; /* #F1F5F9 */
+    --foreground: 224 71% 10%; /* #0F172A */
+    --card: 0 0% 100%;
+    --card-foreground: 224 71% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71% 10%;
+    --primary: 212 75% 58%; /* A confident blue */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 190 95% 43%; /* #06B6D4 */
+    --secondary-foreground: 210 40% 98%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 28% 47%; /* #64748B */
+    --accent: 140 65% 58%; /* A success green */
+    --accent-foreground: 210 40% 98%;
+    --destructive: 355 86% 61%; /* #EF4444 */
+    --destructive-foreground: 210 40% 98%;
+    --border: 216 19% 90%; /* #E6E9EF */
+    --input: 216 19% 90%;
+    --ring: 212 75% 58%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.75rem; /* 12px */
+  }
+  .dark {
+    --background: 220 23% 7%; /* #0B1220 */
+    --foreground: 216 28% 93%; /* #E6EEF8 */
+    --card: 220 24% 10%; /* #0F1724 */
+    --card-foreground: 216 28% 93%;
+    --popover: 220 24% 10%;
+    --popover-foreground: 216 28% 93%;
+    --primary: 212 75% 58%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 190 95% 43%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 140 65% 58%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 355 86% 61%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 212 75% 58%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
