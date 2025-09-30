@@ -185,11 +185,11 @@ export default function PortfolioPage() {
                 <div key={inv.id} className="border rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-center">
                     <Link href={`/opportunity/${inv.opportunityId || inv.opportunity_id || 'unknown'}`} className="font-bold text-primary hover:underline truncate">
-                        {inv.InvestmentOpportunity?.name || 'غير محدد'}
+                        {inv.InvestmentOpportunity?.name  }
                     </Link>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         {statusIcon[inv.status] || statusIcon['pending']}
-                        <span>{inv.status || 'غير محدد'}</span>
+                        <span>{inv.status  }</span>
                     </div>
                   </div>
                    <div className="flex justify-between items-center text-sm">
@@ -224,7 +224,7 @@ export default function PortfolioPage() {
                     <TableRow key={inv.id} className="odd:bg-muted/50 hover:bg-muted/50">
                       <TableCell className="font-medium text-xs sm:text-sm">
                         <Link href={`/opportunity/${inv.opportunityId || inv.opportunity_id || 'unknown'}`} className="hover:underline truncate block">
-                          {inv.InvestmentOpportunity?.name || 'غير محدد'}
+                          {inv.investment_opportunity?.name || 'غير محدد'}
                         </Link>
                       </TableCell>
                       <TableCell className="text-center font-mono hidden sm:table-cell text-xs sm:text-sm">{(inv.amount || 0).toLocaleString('ar-SA')} ريال</TableCell>
